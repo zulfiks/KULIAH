@@ -1,0 +1,36 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+mean = 5
+std_dev = 2
+sample_size = 1000
+
+deliveri = np.random.normal(mean,std_dev, sample_size)
+
+df = pd.DataFrame(deliveri, columns=['Waktu Pengiriman'])
+
+print(df.head())
+
+plt.figure(figsize=(8, 6))
+sns.histplot(df['Waktu Pengiriman'], kde=True, color='pink')
+plt.title('Distribusi Waktu Pengiriman Paket')
+plt.xlabel('hari')
+plt.ylabel('Frekuensi')
+plt.show()
+
+prob = np.sum(df['Waktu Pengiriman'] <= 3) / sample_size
+print(f"Probabilitas dikirim dalam 3 hari: {prob:.2f}")
+
+prob = np.sum((df['Waktu Pengiriman'] >= 4) & (df['Waktu Pengiriman'] <= 7)) / sample_size
+print(f"Probabilitas dikirim dalam 4 - 7 hari: {prob:.2f}")
+
+plt.figure(figsize=(8, 6))
+sns.ecdfplot(df['Waktu Pengiriman'], color='purple')
+plt.title('Probabilitas Kumulatif Waktu Pengiriman Paket')
+plt.xlabel('Waktu Pengiriman (hari)')
+plt.ylabel('Probabilitas Kumulatif')
+plt.show()
+
+print(df['Waktu Pengiriman'].describe())
