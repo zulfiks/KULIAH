@@ -1,0 +1,126 @@
+import pandas as pd
+
+# Membaca file Excel
+file_path = "D:\Downloads\Data Sales (1).csv"
+
+# Membaca data dari Sheet1
+df = pd.read_csv(file_path, encoding='windows-1252', delimiter=';')
+print(df.head())
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df_2014 = df[df["Year"] == 2014]
+category_counts = df_2014["Category"].value_counts()
+
+plt.figure(figsize=(8, 5))
+category_counts.plot(kind="bar", color=["red", "orange", "yellow"])
+plt.title("Distribusi Frekuensi Kategori Produk (2014)")
+plt.xlabel("Kategori Produk")
+plt.ylabel("Jumlah Produk Terjual")
+plt.xticks(rotation=0)
+plt.grid(axis="y", linestyle="--", alpha=0.7)
+plt.show()
+
+print(category_counts)
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df_furniture = df_2014[df_2014["Category"] == "Furniture"]
+furniture_counts = df_furniture["Sub-Category"].value_counts()
+
+plt.figure(figsize=(8, 5))
+furniture_counts.plot(kind="bar", color="blue")
+plt.title("Distribusi Frekuensi Produk dalam Kategori Furniture (2014)")
+plt.xlabel("Sub-Kategori Produk")
+plt.ylabel("Jumlah Produk Terjual")
+plt.xticks(rotation=45)
+plt.grid(axis="y", linestyle="--", alpha=0.7)
+plt.show()
+
+print(furniture_counts)
+
+import pandas as pd
+
+# Baca data
+lokasi_file = "D:\Downloads\Data Sales (1).csv"
+data = pd.read_csv(lokasi_file, encoding='windows-1252', delimiter=';')
+
+# Cetak kategori unik untuk debugging
+print("Kategori Unik dalam dataset:", data['Category'].unique())
+
+# Filter data untuk kategori 'Technology'
+data_teknologi = data[data['Category'] == 'Technology']
+
+# Kelompokkan berdasarkan Nama Produk dan jumlahkan Penjualan, lalu ambil 5 teratas
+penjualan_per_produk = data_teknologi.groupby('Product Name')['Sales'].sum().sort_values(ascending=False).head(5)
+
+# Cetak hasil
+print("\nTop 5 Produk berdasarkan Penjualan pada Kategori Technology:")
+print(penjualan_per_produk)
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read the data
+file_path = "D:\Downloads\Data Sales (1).csv"
+df = pd.read_csv(file_path, encoding='windows-1252', delimiter=';')
+
+# Filter data for DKI Jakarta and years 2014 to 2017
+data_jakarta = df[
+    (df['City'] == 'DKI Jakarta') & 
+    (df['Year'].between(2014, 2017))
+]
+
+# Group by Year and count the number of purchases (rows) per year
+purchases_per_year = data_jakarta.groupby('Year').size()
+
+# Print the counts for verification
+print("Jumlah Pembelian per Tahun di DKI Jakarta (2014-2017):")
+print(purchases_per_year)
+
+# Create a bar chart for visualization
+plt.figure(figsize=(8, 6))
+purchases_per_year.plot(kind='bar', color='skyblue')
+plt.title('Pembelian Barang per Tahun di Kota DKI Jakarta (2014-2017)')
+plt.xlabel('Tahun')
+plt.ylabel('Jumlah Pembelian')
+plt.xticks(rotation=0)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read the data
+file_path = "D:\Downloads\Data Sales (1).csv"
+df = pd.read_csv(file_path, encoding='windows-1252', delimiter=';')
+
+# Filter data for 2015, City 'DKI Jakarta', and Category 'Office Supplies'
+data_2015 = df[
+    (df['Year'] == 2015) & 
+    (df['City'] == 'DKI Jakarta') & 
+    (df['Category'] == 'Office Supplies')
+]
+
+# Calculate total buyers and Corporate buyers for Office Supplies
+total_buyers = len(data_2015)
+corporate_buyers = len(data_2015[data_2015['Segment'] == 'Corporate'])
+
+# Calculate probability
+probability = corporate_buyers / total_buyers if total_buyers > 0 else 0
+
+# Print results
+print(f"\nAnalisis Pembelian Office Supplies tahun 2015 di DKI Jakarta:")
+print(f"Total pembeli: {total_buyers}")
+print(f"Pembeli Corporate: {corporate_buyers}")
+print(f"Peluang pembeli Corporate: {probability:.2%}")
+
+# Create pie chart for visualization
+plt.figure(figsize=(8, 6))
+buyer_types = data_2015['Segment'].value_counts()
+plt.pie(buyer_types, labels=buyer_types.index, autopct='%1.1f%%')
+plt.title('Distribusi Tipe Pembeli Office Supplies di DKI Jakarta (2015)')
+plt.axis('equal')
+plt.show()
